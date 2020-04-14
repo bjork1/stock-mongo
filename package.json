@@ -1,0 +1,27 @@
+{
+  "name": "stock-mongo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bjork1/stock-mongo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bjork1/stock-mongo/issues"
+  },
+  "homepage": "https://github.com/bjork1/stock-mongo#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "materialize-css": "^1.0.0-rc.2",
+    "mongojs": "^3.1.0",
+    "morgan": "^1.10.0",
+    "unirest": "^0.6.0"
+  }
+}
