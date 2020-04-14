@@ -44,6 +44,17 @@
 //   console.log(response);
 // });
 
+document.addEventListener("DOMContentLoaded", function () {
+  var elems = document.querySelectorAll(".collapsible");
+  var instances = M.Collapsible.init(elems, options);
+});
+
+// Or with jQuery
+
+$(document).ready(function () {
+  $(".collapsible").collapsible();
+});
+
 function getResults() {
   // Empty any results currently on the page
   $("#results").empty();
@@ -52,15 +63,53 @@ function getResults() {
     // For each note...
     for (var i = 0; i < data.length; i++) {
       // ...populate #results with a p-tag that includes the note's title and object id
+      //   <ul class="collapsible">
+      //     <li>
+      //       <div class="collapsible-header">
+      //         <i class="material-icons">filter_drama</i>First
+      //       </div>
+      //       <div class="collapsible-body">
+      //         <span>Lorem ipsum dolor sit amet.</span>
+      //       </div>
+      //     </li>
+      //     <li>
+      //       <div class="collapsible-header">
+      //         <i class="material-icons">place</i>Second
+      //       </div>
+      //       <div class="collapsible-body">
+      //         <span>Lorem ipsum dolor sit amet.</span>
+      //       </div>
+      //     </li>
+      //     <li>
+      //       <div class="collapsible-header">
+      //         <i class="material-icons">whatshot</i>Third
+      //       </div>
+      //       <div class="collapsible-body">
+      //         <span>Lorem ipsum dolor sit amet.</span>
+      //       </div>
+      //     </li>
+      //   </ul>;
+
       $("#results").prepend(
-        "<p class='data-entry' data-id=" +
+        `<li class = "data-entry" data-id ="` +
           data[i]._id +
-          "><span class='dataTitle' data-id=" +
+          `"><div class = "collapsible-header dataTitle" data-id= "` +
           data[i]._id +
-          ">" +
+          `">` +
           data[i].title +
-          "</span><span class='delete'>X</span></p>"
+          `</div><div class = "collapsible-body"><span>Hello</span></div></li>`
       );
+
+      //Test above
+      //   $("#results").prepend(
+      //     "<p class='data-entry' data-id=" +
+      //       data[i]._id +
+      //       "><span class='dataTitle' data-id=" +
+      //       data[i]._id +
+      //       ">" +
+      //       data[i].title +
+      //       "</span><span class='delete'>X</span></p>"
+      //   );
     }
   });
 }
@@ -87,15 +136,26 @@ $(document).on("click", "#make-new", function () {
     // If that API call succeeds, add the title and a delete button for the note to the page
     .then(function (data) {
       // Add the title and delete button to the #results section
+
       $("#results").prepend(
-        "<p class='data-entry' data-id=" +
+        `<li class = "data-entry" data-id ="` +
           data._id +
-          "><span class='dataTitle' data-id=" +
+          `"><div class = "collapsible-header dataTitle" data-id= "` +
           data._id +
-          ">" +
+          `">` +
           data.title +
-          "</span><span class='delete'>X</span></p>"
+          `</div><div class = "collapsible-body"><span>Hello</span></div></li>`
       );
+
+      //   $("#results").prepend(
+      //     "<p class='data-entry' data-id=" +
+      //       data._id +
+      //       "><span class='dataTitle' data-id=" +
+      //       data._id +
+      //       ">" +
+      //       data.title +
+      //       "</span><span class='delete'>X</span></p>"
+      //   );
       // Clear the note and title inputs on the page
       $("#note").val("");
       $("#title").val("");
@@ -138,7 +198,9 @@ $(document).on("click", ".delete", function () {
       $("#average").val("");
       $("#total").val("");
       // Make sure the #action-button is submit (in case it's update)
-      $("#action-button").html("<button id='make-new'>Submit</button>");
+      $("#action-button").html(
+        "<button id = 'make-new' class = 'btn waves-effect waves-light'>Submit<i class = 'material-icons right'>send</i></buttons>"
+      );
     },
   });
 });
@@ -161,7 +223,9 @@ $(document).on("click", ".dataTitle", function () {
       // Make the #action-button an update button, so user can
       // Update the note s/he chooses
       $("#action-button").html(
-        "<button id='updater' data-id='" + data._id + "'>Update</button>"
+        "<button id='updater' class = 'btn waves-effect waves-light' data-id='" +
+          data._id +
+          "'>Update<i class = 'material-icons rights'>cloud</i></button>"
       );
     },
   });
@@ -193,7 +257,11 @@ $(document).on("click", "#updater", function () {
       $("#average").val("");
       $("#total").val("");
       // Revert action button to submit
-      $("#action-button").html("<button id='make-new'>Submit</button>");
+      // $("#action-button").html("<button id='make-new'>Submit</button>");
+
+      $("#action-button").html(
+        "<button id = 'make-new' class = 'btn waves-effect waves-light'>Submit<i class = 'material-icons right'>send</i></buttons>"
+      );
       // Grab the results from the db again, to populate the DOM
       getResults();
     },
