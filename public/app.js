@@ -221,6 +221,11 @@ $(document).on("click", ".delete", function () {
 // When user click's on note title, show the note, and allow for updates
 $(document).on("click", ".dataTitle", function () {
   // Grab the element
+
+  $("label").addClass("active");
+  $("#priceInfo").html("");
+  $("#gains").html("");
+
   var selected = $(this);
   // Make an ajax call to find the note
   // This uses the data-id of the p-tag, which is linked to the specific note
@@ -274,6 +279,7 @@ $(document).on("click", "#testInfo", function (selected) {
     price = res["Global Quote"]["05. price"];
     var a = Number($("#total").val());
     var b = Number($("#note").val());
+    var c = Number(price) * b - a;
     // console.log(res);
 
     // $("#stockdata").html(response.symbol);
@@ -292,7 +298,19 @@ $(document).on("click", "#testInfo", function (selected) {
 </div>`
     );
 
-    console.log(Number(price) * b - a);
+    $("#gains").html(
+      `<div class="card blue-grey darken-1">
+  <div class="card-content white-text">
+    <span class="card-title">Gains</span>
+    <p id = "priceValue">` +
+        c +
+        `</p>
+  </div>
+  
+  </div>`
+    );
+
+    //console.log(Number(price) * b - a);
 
     {
       /* <div class="card blue-grey darken-1">
@@ -355,6 +373,8 @@ $(document).on("click", "#updater", function () {
       );
       // Grab the results from the db again, to populate the DOM
       getResults();
+
+      $("label").removeClass("active");
     },
   });
 });
