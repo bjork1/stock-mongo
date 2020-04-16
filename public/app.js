@@ -1,48 +1,43 @@
-// $.ajax({
-//     async: true,
-//     crossDomain: true,
-//     url:
-//       "https://alpha-vantage.p.rapidapi.com/query?symbol=TSLA&function=GLOBAL_QUOTE",
-//     method: "GET",
-//     dataType: "json",
-//     headers: {
-//       "x-rapidapi-host": "alpha-vantage.p.rapidapi.com",
-//       "x-rapidapi-key": "8837642bb2msh0a32e8bc2274f43p1efad7jsn770d7e11a0d0",
-//     },
+console.log(Number($("#total")));
 
-//     success: function(response){
-//var longitude = data.coord.lon;
-//var latitude = data.coord.lat;
+// var num = Number(40.2 * 5 - $("#total"));
+// var roundedString = num.toFixed(2);
+// var rounded = Number(roundedString);
+// console.log(rounded);
 
-// console.log(response);
-
-// var wf = '';
-// $.each(data.weather, function(index, val) {
-//     wf += '<h2><b>' + data.name +' (' + date + ')' + "</b>" + "<img src = 'https://openweathermap.org/img/w/" + data['weather'][0].icon + ".png'>" + "</h2>" + '<p>Temperature: ' + data.main.temp + '&deg;C  </p>'+ '<p>Humidity: ' + data.main.humidity + '%</p>'+ '<p>Wind Speed: ' + data.wind.speed + ' MPH</p>' + val.main + ', ' + val.description
-// });
-// $("#stockdata").html(wf);
-//     }
-// })
+// var position = $("#title").val();
+// console.log(position);
 
 // var settings = {
 //   async: true,
 //   crossDomain: true,
 //   url:
-//     "https://alpha-vantage.p.rapidapi.com/query?symbol=TSLA&function=GLOBAL_QUOTE",
+//     "https://alpha-vantage.p.rapidapi.com/query?symbol=" +
+//     position +
+//     "&function=GLOBAL_QUOTE",
 //   method: "GET",
-//   dataType: "json",
+//   //dataType: "json",
 //   headers: {
 //     "x-rapidapi-host": "alpha-vantage.p.rapidapi.com",
 //     "x-rapidapi-key": "8837642bb2msh0a32e8bc2274f43p1efad7jsn770d7e11a0d0",
 //   },
 // };
+//const content = JSON.parse(body);
 
-// $.ajax(settings).done(function (response) {
-//   // $("#stockdata").html(response.symbol);
+// var newArray = [];
+// var wf = "";
+//$.ajax(settings).done(function (res) {
+//symbol = res["Global Quote"]["01. symbol"];
 
-//   console.log(response);
-//   console.log(response);
-// });
+// $("#stockdata").html(response.symbol);
+//   newArray.push($(res));
+//var test = JSON.parse(res);
+//
+//$("#output").html(symbol);
+// console.log(res[0]);
+//console.log(res);
+//   $("#output").html(newArray[0]);
+//});
 
 document.addEventListener("DOMContentLoaded", function () {
   var elems = document.querySelectorAll(".collapsible");
@@ -97,7 +92,15 @@ function getResults() {
           data[i]._id +
           `">` +
           data[i].title +
-          `</div><div class = "collapsible-body"><span>Hello</span></div></li>`
+          `<span data-id = "` +
+          data[i]._id +
+          `"></span></div><div class = "collapsible-body" data-id = "` +
+          data[i]._id +
+          `"><span><i class = 'material-icons left' id = 'testInfo' value = "` +
+          data[i].title +
+          `">photo_size_select_actual</i></span><span class = "delete" data-id = "` +
+          data[i]._id +
+          `"><i class = 'material-icons right'>delete_forever</i></span></div></li>`
       );
 
       //Test above
@@ -144,8 +147,16 @@ $(document).on("click", "#make-new", function () {
           data._id +
           `">` +
           data.title +
-          `</div><div class = "collapsible-body"><span>Hello</span></div></li>`
+          `<span data-id = "` +
+          data._id +
+          `" ></span></div><div class = "collapsible-body" data-id = "` +
+          data._id +
+          `"><span><i id = 'testInfo' value = "` +
+          data.title`" class = 'material-icons left'>photo_size_select_actual</i></span><span class = "delete" data-id = "` +
+          data._id +
+          `"><i class = 'material-icons right'>delete_forever</i></span></div></li>`
       );
+      //           `<span class='delete' ><i style="float: right" class = 'material-icons right'>delete</i></span></div><div class = "collapsible-body"><span>Add data</span></div></li>`
 
       //   $("#results").prepend(
       //     "<p class='data-entry' data-id=" +
@@ -181,7 +192,8 @@ $("#clear-all").on("click", function () {
 // When user clicks the delete button for a note
 $(document).on("click", ".delete", function () {
   // Save the p tag that encloses the button
-  var selected = $(this).parent();
+  var selected = $(this);
+  //var selected = $(this).parent();
   // Make an AJAX GET request to delete the specific note
   // this uses the data-id of the p-tag, which is linked to the specific note
   $.ajax({
@@ -201,6 +213,7 @@ $(document).on("click", ".delete", function () {
       $("#action-button").html(
         "<button id = 'make-new' class = 'btn waves-effect waves-light'>Submit<i class = 'material-icons right'>send</i></buttons>"
       );
+      location.reload(true);
     },
   });
 });
@@ -227,7 +240,77 @@ $(document).on("click", ".dataTitle", function () {
           data._id +
           "'>Update<i class = 'material-icons rights'>cloud</i></button>"
       );
+      //$(".information").html(data.title);
     },
+  });
+});
+
+$(document).on("click", "#testInfo", function (selected) {
+  var selected = $(this).val($("#title"));
+
+  var symbol = selected.val()[0].value;
+
+  //$("#information").html(selected.val()[0].value);
+
+  var settings = {
+    async: true,
+    crossDomain: true,
+    url:
+      "https://alpha-vantage.p.rapidapi.com/query?symbol=" +
+      symbol +
+      "&function=GLOBAL_QUOTE",
+    method: "GET",
+    //dataType: "json",
+    headers: {
+      "x-rapidapi-host": "alpha-vantage.p.rapidapi.com",
+      "x-rapidapi-key": "8837642bb2msh0a32e8bc2274f43p1efad7jsn770d7e11a0d0",
+    },
+  };
+  //const content = JSON.parse(body);
+
+  // var newArray = [];
+  // var wf = "";
+  $.ajax(settings).done(function (res) {
+    price = res["Global Quote"]["05. price"];
+    var a = Number($("#total").val());
+    var b = Number($("#note").val());
+    // console.log(res);
+
+    // $("#stockdata").html(response.symbol);
+    //   newArray.push($(res));
+    //var test = JSON.parse(res);
+
+    $("#priceInfo").html(
+      `<div class="card blue-grey darken-1">
+<div class="card-content white-text">
+  <span class="card-title">Current Price</span>
+  <p id = "priceValue">` +
+        price +
+        `</p>
+</div>
+
+</div>`
+    );
+
+    console.log(Number(price) * b - a);
+
+    {
+      /* <div class="card blue-grey darken-1">
+        <div class="card-content white-text">
+          <span class="card-title">Current Price</span>
+          <p> + price + </p>
+        </div>
+        
+      </div> */
+    }
+
+    //
+    //$("#information").html(price);
+    //$("#more").html
+
+    // console.log(res[0]);
+    //console.log(res);
+    //   $("#output").html(newArray[0]);
   });
 });
 
@@ -239,6 +322,14 @@ $(document).on("click", "#updater", function () {
   // This uses the data-id of the update button,
   // which is linked to the specific note title
   // that the user clicked before
+  var a = Number($("#total").val());
+  var b = Number($("#note").val());
+
+  console.log(a * b);
+  // var num = Number(40.2 * 5 - $("#total"));
+  // var roundedString = num.toFixed(2);
+  // var rounded = Number(roundedString);
+  // console.log(rounded);
   $.ajax({
     type: "POST",
     url: "/update/" + selected.attr("data-id"),
@@ -266,4 +357,10 @@ $(document).on("click", "#updater", function () {
       getResults();
     },
   });
+});
+
+// Or with jQuery
+
+$(document).ready(function () {
+  $(".modal").modal();
 });
