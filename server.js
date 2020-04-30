@@ -5,6 +5,14 @@ const path = require("path");
 
 const app = express();
 
+// mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", {
+
+//   useNewUrlParser: true,
+
+//   useFindAndModify: false,
+
+// });
+
 // var unirest = require("unirest");
 
 // var req = unirest("GET", "https://alpha-vantage.p.rapidapi.com/query");
